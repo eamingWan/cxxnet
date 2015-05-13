@@ -123,7 +123,7 @@ class CXXNetThreadTrainer : public INetTrainer {
     old_cfg.LoadNet(fi);
     fi.Read(&epoch_counter, sizeof(epoch_counter));
     epoch_counter = 0;
-    NeuralNet<cpu> old_net(old_cfg, 0, 0, NULL);
+    NeuralNet<cpu> old_net(old_cfg, 1, 0, NULL);
     std::string old_model;
     fi.Read(&old_model);
     utils::MemoryBufferStream os(&old_model);

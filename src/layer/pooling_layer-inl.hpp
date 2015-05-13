@@ -20,6 +20,13 @@ class PoolingLayer : public ILayer<xpu> {
   virtual void SetParam(const char *name, const char* val) {
     param_.SetParam(name, val);
   }
+  virtual void SaveModel(utils::IStream &fo) const {
+    fo.Write(&param_, sizeof(LayerParam));
+  }
+  virtual void LoadModel(utils::IStream &fi) {
+    utils::Check(fi.Read(&param_, sizeof(LayerParam)) != 0,
+                  "PoolingLayer:LoadModel invalid model file");
+  }
   virtual void InitConnection(const std::vector<Node<xpu>*> &nodes_in,
                               const std::vector<Node<xpu>*> &nodes_out,
                               ConnectState<xpu> *p_cstate) {

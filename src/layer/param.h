@@ -70,7 +70,7 @@ struct LayerParam {
     num_input_channel = 0;
     num_input_node = 0;
     // 64 MB
-    temp_col_max = 64<<18;
+    temp_col_max = 64 << 18;
     memset(reserved, 0, sizeof(reserved));
   }
   /*!
