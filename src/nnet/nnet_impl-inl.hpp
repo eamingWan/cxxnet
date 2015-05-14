@@ -122,7 +122,6 @@ class CXXNetThreadTrainer : public INetTrainer {
     NetConfig old_cfg;
     old_cfg.LoadNet(fi);
     fi.Read(&epoch_counter, sizeof(epoch_counter));
-    epoch_counter = 0;
     NeuralNet<cpu> old_net(old_cfg, 1, 0, NULL);
     std::string old_model;
     fi.Read(&old_model);
