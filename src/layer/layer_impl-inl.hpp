@@ -53,10 +53,13 @@ ILayer<xpu>* CreateLayer_(LayerType type,
     case kLRN: return new LRNLayer<xpu>();
     case kFlatten: return new FlattenLayer<xpu>();
     case kReluMaxPooling: return
-        new PoolingLayer<mshadow::red::maximum, false, xpu, false, op::relu, op::relu_grad>();
-    case kMaxPooling: return new CuDNNPoolingLayer<mshadow::red::maximum, kMaxPooling, xpu>();
-    case kSumPooling: return new PoolingLayer<mshadow::red::sum, kSumPooling, xpu>();
-    case kAvgPooling: return new CuDNNPoolingLayer<mshadow::red::sum, kAvgPooling, xpu>();
+        new PoolingLayer<mshadow::red::maximum, false, xpu, false, false, op::relu, op::relu_grad>();
+    case kMaxPooling: return new CuDNNPoolingLayer<mshadow::red::maximum, kMaxPooling, xpu, false>();
+    case kSumPooling: return new PoolingLayer<mshadow::red::sum, kSumPooling, xpu, false>();
+    case kAvgPooling: return new CuDNNPoolingLayer<mshadow::red::sum, kAvgPooling, xpu, false>();
+    case kNewMaxPooling: return new CuDNNPoolingLayer<mshadow::red::maximum, kMaxPooling, xpu, true>();
+    case kNewSumPooling: return new PoolingLayer<mshadow::red::sum, kSumPooling, xpu, true>();
+    case kNewAvgPooling: return new CuDNNPoolingLayer<mshadow::red::sum, kAvgPooling, xpu, true>();
     case kSoftmax: return new SoftmaxLayer<xpu>(label_info);
     case kConcat: return new ConcatLayer<xpu, 3>();
     case kChConcat: return new ConcatLayer<xpu, 1>();

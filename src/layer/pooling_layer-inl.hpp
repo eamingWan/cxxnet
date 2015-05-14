@@ -11,6 +11,7 @@ namespace layer {
 template<typename Reducer,
          int mode,
          typename xpu,
+         bool is_saved_param = true,
          bool is_identity = true,
          typename ForwardOp = op::identity,
          typename BackOp = op::identity_grad>
@@ -21,11 +22,15 @@ class PoolingLayer : public ILayer<xpu> {
     param_.SetParam(name, val);
   }
   virtual void SaveModel(utils::IStream &fo) const {
-    fo.Write(&param_, sizeof(LayerParam));
+    if (is_saved_param) {
+      fo.Write(&param_, sizeof(LayerParam));
+    }
   }
   virtual void LoadModel(utils::IStream &fi) {
-    utils::Check(fi.Read(&param_, sizeof(LayerParam)) != 0,
-                  "PoolingLayer:LoadModel invalid model file");
+    if (is_saved_param) {
+      utils::Check(fi.Read(&param_, sizeof(LayerParam)) != 0,
+                    "PoolingLayer:LoadModel invalid model file");
+    }
   }
   virtual void InitConnection(const std::vector<Node<xpu>*> &nodes_in,
                               const std::vector<Node<xpu>*> &nodes_out,

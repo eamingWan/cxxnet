@@ -8,17 +8,18 @@
 namespace cxxnet {
 namespace layer {
 
-template<typename Reducer, int mode, typename xpu>
+template<typename Reducer, int mode, typename xpu, bool is_saved_param>
 class CuDNNPoolingLayer : public PoolingLayer<Reducer, mode, xpu> {
  public:
    CuDNNPoolingLayer(){}
 };
 
 #ifdef __CUDACC__
-template<typename Reducer, int mode>
-class CuDNNPoolingLayer<Reducer, mode, gpu> : public PoolingLayer<Reducer, mode, gpu> {
+template<typename Reducer, int mode, bool is_saved_param>
+class CuDNNPoolingLayer<Reducer, mode, gpu, is_saved_param>
+  : public PoolingLayer<Reducer, mode, gpu, is_saved_param> {
   private:
-    typedef PoolingLayer<Reducer, mode, gpu> Parent;
+    typedef PoolingLayer<Reducer, mode, gpu, is_saved_param> Parent;
   public:
     CuDNNPoolingLayer(){}
 #if CXXNET_USE_CUDNN == 1

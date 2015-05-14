@@ -312,6 +312,9 @@ const int kChConcat = 28;
 const int kPRelu = 29;
 const int kBatchNorm = 30;
 const int kFixConnect = 31;
+const int kNewMaxPooling = 32;
+const int kNewSumPooling = 33;
+const int kNewAvgPooling = 34;
 /*! \brief gap used to encode pairtest layer */
 const int kPairTestGap = 1024;
 /*! \brief use integer to encode layer types */
@@ -334,9 +337,12 @@ inline LayerType GetLayerType(const char *type) {
   if (!strcmp(type, "dropout")) return kDropout;
   if (!strcmp(type, "conv")) return kConv;
   if (!strcmp(type, "relu_max_pooling")) return kReluMaxPooling;
-  if (!strcmp(type, "max_pooling")) return kMaxPooling;
-  if (!strcmp(type, "sum_pooling")) return kSumPooling;
-  if (!strcmp(type, "avg_pooling")) return kAvgPooling;
+  if (!strcmp(type, "max_pooling")) return kNewMaxPooling;
+  if (!strcmp(type, "sum_pooling")) return kNewSumPooling;
+  if (!strcmp(type, "avg_pooling")) return kNewAvgPooling;
+  if (!strcmp(type, "max_pooling_old")) return kMaxPooling;
+  if (!strcmp(type, "sum_pooling_old")) return kSumPooling;
+  if (!strcmp(type, "avg_pooling_old")) return kAvgPooling;
   if (!strcmp(type, "lrn")) return kLRN;
   if (!strcmp(type, "concat")) return kConcat;
   if (!strcmp(type, "xelu")) return kXelu;

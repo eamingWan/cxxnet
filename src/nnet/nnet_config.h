@@ -261,10 +261,16 @@ struct NetConfig {
           layers.push_back(info);
           layercfg.resize(layers.size());
         } else {
-          utils::Check(cfg_layer_index < static_cast<int>(layers.size()),
-                       "config layer index exceed bound");
-          utils::Check(info == layers[cfg_layer_index],
-                       "config setting does not match existing network structure");
+          CHECK(cfg_layer_index < static_cast<int>(layers.size())) <<
+                       "config layer index exceed bound";
+          bool is_same_layer = (info == layers[cfg_layer_index]);
+          if (!is_same_layer && info.type >= 32 && info.type <= 34 &&
+              layers[cfg_layer_index].type >= 11 && layers[cfg_layer_index].type <= 13) {
+            LOG(ERROR) << "Do you use deprecated model contains pooling layer? If yes, please check https://github.com/dmlc/cxxnet/issues/147 for details.";
+          }
+          CHECK(is_same_layer) <<
+                "config setting does not match existing network structure in layer " <<
+                info.name;
         }
         if (info.nindex_out.size() == 1) {
           cfg_top_node = info.nindex_out[0];
